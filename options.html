@@ -1,0 +1,407 @@
+<html>
+<head>
+    <title>AutoLogger Options</title>
+
+    <style type="text/css">
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: arial;
+    font-size: 12px;
+}
+.container {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.bar {
+    padding-top: 50px;
+}
+
+.bar1 {
+    width: 30%;
+    float: left;
+    background-color: #eee;
+    padding-left: 30px;
+    padding-right: 15px;
+    border-right: 3px solid #222;
+}
+.bar2 {
+    width: 60%;
+    float: left;
+    padding-left: 30px;
+    padding-right: 15px;
+}
+.formContainer h2 {
+    color: #0036db;
+    font-size: inherit;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.formContainer {
+    text-align: left;
+    width: 400px;
+}
+
+.typeContainer {
+    margin-top: 2px;
+    margin-bottom: 40px;
+    text-align: right;
+}
+
+.moreLessSpan {
+    position: relative;
+    top: -24px;
+    left: 60px;
+    color: #999;
+}
+.typeContainer  a {
+    text-decoration: none;
+    padding: 0px 5px;
+}
+
+.inputContainer {
+    width: 540px;
+    text-align: left;
+}
+
+.inputContainer .label {
+    width: 90px;
+    display: table-cell;
+    font-weight: bold;
+    text-align: right;
+    padding-right: 10px;
+
+}
+.inputContainer span {
+    width: 300px;
+    display: table-cell;
+    text-align: left;
+}
+
+.welcome {
+    padding: 5px;
+    font-weight: bold;
+    background-color: #222;
+    color: #ffb400;
+    font-size: large;
+    text-align: center;
+}
+
+.logo {
+    position: fixed;
+    right: 0px;
+    top: 0px;
+}
+
+.menu {
+    text-align: justify;
+}
+
+.submit {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.showPassword .description  {
+    padding: 7px;
+    background-color: #ccc;
+    border: 1px solid black;
+    position: absolute;
+    left: 320px;
+    width: 200px;
+}
+.showPassword .description .example {
+    font-family: arial;
+    font-size: 11px;
+    background-color: white;
+    color: black;
+    opacity: 0.7;
+    border: 1px solid black;
+    padding: 3px;
+}
+
+    </style>
+    <script type="text/javascript" src="jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="utils.js"></script>
+    <script type="text/javascript" src="tea.js"></script>
+    <script type="text/javascript">
+        var CONF = _AL_CONF
+        var TYPES = CONF.types.get()
+
+        function setAlValues(alValues){
+            for(var i = 0; i<TYPES.length; i++) {
+                
+                var type            = TYPES[i];         //"login"
+                var values          = alValues[type];   //["myLogin1", "myLogin2"]
+                var encryptedValues = [];
+
+                for(var j=0; j<values.length; j++) {
+                    var value = values[j];                                          //"myLogin1"
+                    var encryptedValue = Tea.encrypt(value, CONF.encKey.get());     //"pMXuk6cFLOOou6"
+                    encryptedValues.push(encryptedValue);
+                }
+
+                alValues[type] = encryptedValues;   //["pMXuk6cFLOOou6", "Jbj1l6tjO"]
+            }
+            CONF.alValues.set(alValues);
+        }
+
+        function defaultAlValues() {
+            var defaultAlValues = {};
+            for(var i = 0; i<TYPES.length; i++) {
+                var type = TYPES[i];
+                var defaultValue = 'Set your ' + type + ' in AutoLogger options page';
+                defaultAlValues[type] = [defaultValue];
+            }
+
+            return defaultAlValues;
+        }
+
+        function saveOptions() {
+            var formValues = getForm().serializeArray();
+            
+            var alValues = {}
+
+            $.each(TYPES, function(){
+                alValues[this] = [];    //{name: [], login: [], ...}
+            })
+
+            $.each(formValues, function(){
+                if(this.value != '') {
+                    alValues[this.name].push(this.value);   //{name: [myName1, myName2], login: [myLogin1, myLogin2], ...}
+                }
+            })
+
+            setAlValues(alValues);
+            alert('Options saved!');
+        }
+        
+        function getForm() {
+            return $('form');
+        }
+
+        function numberOfTypeInputs(type) {
+            return $('input[name="' + type + '"]').length;
+        }
+
+        function generateForm() {
+            var clearForm = function(){if(getForm().length) $(CONF.constants.innerFormClass, getForm()).html("");}();
+
+            var alValues = CONF.alValues.get();
+
+            if( alValues == null ) {
+                var setDefaultValues = function() {
+                    setAlValues(defaultAlValues());
+                    alValues = CONF.alValues.get();
+                }()
+            }
+
+            for(var type in alValues) {
+                var values = alValues[type];
+                
+                generateAndAppendTypeBefore(type);
+
+                values.forEach(function(value) {
+                    value = Tea.decrypt(value, CONF.encKey.get())
+                    var inputNumber = numberOfTypeInputs(type) + 1;
+                    var humanName = capitalize(type) + " (" + inputNumber + ")";
+                    if(type == 'password') {
+                        generateAndAppendInput([type, humanName], type, {value: value});
+                    }
+                    else {
+                        generateAndAppendInput([type, humanName], 'text', {value: value});
+                    }
+                })
+
+                generateAndAppendTypeAfter(type);
+            }
+            appendSubmitButton();
+
+        }
+
+        function generateAndAppendTypeBefore(type) {
+            var html = "<h2>Your " + CONF.dict.types[type].pluralize + "</h2>";
+            appendToForm(html);
+        }
+
+        function generateAndAppendInput(name, type, opts) {
+            var input = generateInput(name, type, opts);
+            appendToForm(input);
+        }
+
+        function generateInput(name, type, opts) {
+            return generateStandardInput(name, type, opts);
+        }
+
+        function generateStandardInput(name, type, opts) {
+            var name_ = name[0];
+            var humanName = name[1];
+
+            var spanForInput = $("<span>");
+            var input = document.createElement("input");
+            input.name = name_;
+            input.type = type;
+            input.size = 37;
+
+            for(var prop in opts) {
+                input[prop] = opts[prop];
+            }
+
+            var inputContainer = createInputContainer(humanName);
+            spanForInput.append(input);
+            inputContainer.append(spanForInput);
+            
+            return inputContainer;
+        }
+
+        function generateAndAppendTypeAfter(type) {
+            var container = $('<div>');
+            container.addClass('typeContainer');
+            var addAnotherOne = $('<a>');
+            addAnotherOne.text("Add");
+            addAnotherOne.attr('href', '#');
+            addAnotherOne.addClass('more');
+            addAnotherOne.addClass('moreLess');
+
+            var removeLastOne = $('<a>');
+            removeLastOne.text("Remove");
+            removeLastOne.attr('href', '#');
+            removeLastOne.addClass('less');
+            removeLastOne.addClass('moreLess');
+
+            addAnotherOne.click(function(){
+                var newInputContainer = addAnotherOne.parent().parent().prev().clone(true);
+                var newInput = $('input', newInputContainer);
+                var newInputLabel = $('label', newInputContainer);
+                newInputLabel.text(newInputLabel.text().replace(/[0-9]/, numberOfTypeInputs(type) + 1));
+                container.before(newInputContainer);
+                newInput.val("");
+                newInput.focus();
+            })
+
+            removeLastOne.click(function(){
+                var lastInput = removeLastOne.parent().parent().prev();
+                if( $('input', removeLastOne.parent().parent().prev().prev()).length < 1) {
+                    alert('Cannot remove the last one');
+                }
+                else {
+                    lastInput.remove();
+                }
+            })
+
+            appendMoreLessButtons();
+
+            appendToForm(container);
+
+            function appendMoreLessButtons() {
+                var moreLessSpan = $('<span>');
+                moreLessSpan.addClass('moreLessSpan');
+                moreLessSpan.append(addAnotherOne);
+                moreLessSpan.append(" | ");
+                moreLessSpan.append(removeLastOne);
+                container.append(moreLessSpan);
+            }
+        }
+
+        function createInputContainer(name) {
+            var container = $('<div>');
+            container.addClass('inputContainer');
+
+            var textSpan = $('<label>');
+            textSpan.text(name + ": ");
+            textSpan.addClass("label");
+            textSpan.attr('for', name);
+
+            container.append(textSpan);
+
+            return container;
+        }
+
+        function appendToForm(input){
+            $(CONF.constants.innerFormClass).append(input);
+        }
+
+        function appendSubmitButton(){
+            appendToForm('<div class="submit"><input type="submit" /></div>');
+        }
+
+        function initialize(){
+            prepareOptionsPanel();
+            generateForm();
+            $('.bar1').css('height', $('.bar2').height())
+            setEvents();
+        }
+
+        function prepareOptionsPanel() {
+            
+            var value = null;
+
+            var showPasswordContainer = $('.showPassword');
+            showPasswordContainer.hover(
+                function(){ $('.description', showPasswordContainer).show(); },
+                function(){ $('.description', showPasswordContainer).hide(); }
+            )
+
+            var booleanOptions = ['showPassword', 'autoFill'];
+
+            booleanOptions.forEach(function(name) {
+                value = CONF.options.getValue(name);
+                var inputSelector = '.' + name + ' input';
+                $(inputSelector).attr('checked', value);
+
+                $(inputSelector).click(function(){
+                    CONF.options.setValue(name, $(inputSelector).is(':checked'));
+                })
+            })
+
+        }
+
+        function setEvents(){
+            $('.submit', getForm()).click(function(evt){
+                evt.stopPropagation();
+                saveOptions();
+                return false;
+            })
+        }
+    </script>
+
+</head>
+
+<body onload="initialize();">
+    <div class="welcome">
+        <img class="logo" alt="logo" src="autologger_icon128x128.png" />
+        Welcome to the AutoLogger options page
+    </div>
+    <div class="container">
+        <div class="bar1 bar">
+            <div class="menu">
+                <div>
+                    <div class="showPassword">
+                        <input type="checkbox" /> Show the first and the last char from your password.
+                        <span class="description" style="display: none">Example: <span class="example">*a*******Z (dbl click to set)</span></span>
+                    </div>
+                    <div class="autoFill">
+                        <input type="checkbox" /> Fill fields automatically (no dbl click needed).
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bar2 bar">
+            <div class="formContainer">
+                <form action="">
+                    <div class="innerForm">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

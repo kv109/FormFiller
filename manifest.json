@@ -1,0 +1,22 @@
+{
+    "name": "AutoLogger",
+    "version": "0.0.6",
+    "description": "Fills web forms fields for you.",
+    "icons": { "1": "autologger_icon.png" },
+     "browser_action": {
+        "default_icon": "autologger_icon128x128.png",
+        "popup": "popup.html",
+        "title": "AutoLogger"
+      },
+    "permissions": ["*"],
+    "options_page": "options.html",
+    "background_page": "background.html",
+    "content_scripts": [
+        {
+          "matches": ["http://*/*", "https://*/*"],
+          "js": [ "jquery-1.7.1.min.js", "tea.js", "utils.js", "autologger.js" ],
+          "all_frames": true
+        }
+      ]
+}
+
