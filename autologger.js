@@ -74,6 +74,15 @@ $(function(){
 
                     return nameIsSet && typeIsCorrect;
                 }
+
+                HTMLInputElement.prototype.empty = function() {
+                    return this.value == '';
+                }
+
+                HTMLInputElement.prototype.withPromptValue = function(type) {
+                    var value = this.value.toLowerCase();
+                    return value.match(type) || this.name.match(value);
+                }
             }(),
 
             extendJQuery: function() {
@@ -119,11 +128,11 @@ $(function(){
                         var input$ = $(input)
                         input$.bindALInputEvents(type);
                         if(AL.options.autoFill) {
-//                        if(true) {
-                            if(input$.val() == '') {
-                                input$.val(AL.inputs.valueToPut(type, input$));
+                            if(input.empty() || input.withPromptValue(type)) {
+                                input.value = AL.inputs.valueToPut(type, input$);
                             }
                         }
+
                     }
                 })
             },
