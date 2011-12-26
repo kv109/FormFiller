@@ -56,13 +56,14 @@ $(function(){
                     return eval('is' + type + '()');
                     
                     function ispassword(){
+                        if(that.type == 'password') return type;
                         var name = that.name.toLowerCase();
 
                         var requiredNames = /(pass|confirm|retype)/;
-                        var notAllowedNames = 'name';
-                        
+                        var notAllowedNames = /(name|email)/;
+
                         var res = name.match(requiredNames) && !name.match(notAllowedNames);
-                        
+
                         return res ? type : null
                     }
                 }
