@@ -70,12 +70,16 @@ $(function(){
                     function isemail(){
                         return (that.type == 'email' || that.isStandardALInput(type)) ? type : false;
                     }
+
+                    function isphone(){
+                        return (that.type == 'tel' || that.isStandardALInput(type)) ? type : false;
+                    }
                 }
 
                 HTMLInputElement.prototype.hasRequiredALInputAttrs = function() {
                     var nameIsSet = typeof(name) !== 'undefined'
 
-                    var allowedTypes = /(text|password|email)/
+                    var allowedTypes = /(text|password|email|tel)/
                     var typeIsCorrect = this.type.match(allowedTypes);
 
                     return nameIsSet && typeIsCorrect;
@@ -123,7 +127,7 @@ $(function(){
         
         inputs: {
             types: _AL_CONF.types.get(),
-            specificTypes: ['password', 'email'],
+            specificTypes: ['password', 'email', 'phone'],
 
             prepare: function(){
                 var inputs = AL.inputs.findAll();
