@@ -66,11 +66,17 @@ $(function(){
 
                         return res ? type : null
                     }
+
+                    function isemail(){
+                        return (that.type == 'email' || that.isStandardALInput(type)) ? type : false;
+                    }
                 }
 
                 HTMLInputElement.prototype.hasRequiredALInputAttrs = function() {
                     var nameIsSet = typeof(name) !== 'undefined'
-                    var typeIsCorrect = this.type == 'text' || this.type == 'password'
+
+                    var allowedTypes = /(text|password|email)/
+                    var typeIsCorrect = this.type.match(allowedTypes);
 
                     return nameIsSet && typeIsCorrect;
                 }
@@ -117,7 +123,7 @@ $(function(){
         
         inputs: {
             types: _AL_CONF.types.get(),
-            specificTypes: ['password'],
+            specificTypes: ['password', 'email'],
 
             prepare: function(){
                 var inputs = AL.inputs.findAll();
