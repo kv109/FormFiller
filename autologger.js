@@ -1,4 +1,4 @@
-$(function(){
+(function(){
     AL = {
         
         initialize: {
@@ -89,29 +89,41 @@ $(function(){
                     var value = this.value.toLowerCase();
                     return value.match(type) || this.name.match(value);
                 }
-            }(),
 
-            extendJQuery: function() {
+                HTMLInputElement.prototype.position = function() {
+                    var curtop = 0;
+                    var curleft = 0;
+                    var that = this;
 
-                $.fn.bindALInputEvents = function(type){
-                    var this$ = this;
-                    var infoDivId = '__AL109'+this.attr('name');
+                    if (this.offsetParent) {
+                        do {
+                            curleft += that.offsetLeft;
+                            curtop  += that.offsetTop;
+                        } while (that = that.offsetParent);
+                    }
+                    return {left: curleft, top: curtop}
+                }
 
-                    this.hover(
-                        function(){ 
-                            AL.inputs.infoDiv.display(infoDivId, this$, type);
-                            var text = type == 'password' ? AL.utils.passwordToStars(AL.inputs.valueToPut(type, this$)) : AL.inputs.valueToPut(type, this$);
-                            AL.inputs.infoDiv.setText(infoDivId, text);
+                HTMLInputElement.prototype.bindALEvents = function(type) {
+                    var that = this;
+                    var infoDivId = '__AL109'+this.name;
 
-                        },
-                        function(){ AL.inputs.infoDiv.hide(infoDivId); }
-                    )
-
-                    this.dblclick(function(){
-                        var value = AL.inputs.valueToPut(type, this$);
-                        this$.val(value);
-                        var text = type == 'password' ? AL.utils.passwordToStars(AL.inputs.valueToPut(type, this$)) : AL.inputs.valueToPut(type, this$);
+                    that.addEventListener('dblclick', function(){
+                        var value = AL.inputs.valueToPut(type, that);
+                        that.value = value;
+                        
+                        var text = type == 'password' ? AL.utils.passwordToStars(AL.inputs.valueToPut(type, that)) : AL.inputs.valueToPut(type, that);
                         AL.inputs.infoDiv.setText(infoDivId, text);
+                    })
+
+                    that.addEventListener('mouseover', function(){
+                        AL.inputs.infoDiv.display(infoDivId, that, type);
+                        var text = type == 'password' ? AL.utils.passwordToStars(AL.inputs.valueToPut(type, that)) : AL.inputs.valueToPut(type, that);
+                        AL.inputs.infoDiv.setText(infoDivId, text);
+                    })
+
+                    that.addEventListener('mouseout', function(){
+                        AL.inputs.infoDiv.hide(infoDivId);
                     })
                 }
             }(),
@@ -131,11 +143,10 @@ $(function(){
                 inputs.forEach(function(input) {
                     var type = input.isALInput();
                     if(type) {
-                        var input$ = $(input)
-                        input$.bindALInputEvents(type);
+                        input.bindALEvents(type);
                         if(AL.options.autoFill) {
                             if(input.empty() || input.withPromptValue(type)) {
-                                input.value = AL.inputs.valueToPut(type, input$);
+                                input.value = AL.inputs.valueToPut(type, input);
                             }
                         }
 
@@ -153,8 +164,8 @@ $(function(){
             },
             
             infoDiv: {
-                create: function(infoDivId, input$){
-                    var infoDivCss = "z-index: 100000; font-family: arial; font-size: 11px; position: absolute; background-color: white; color: black; opacity: 0.7; border: 1px solid black; padding: 3px; left: " + (input$.position().left + input$.width() + 10) + "px; top: " + input$.position().top + "px";
+                create: function(infoDivId, input){
+                    var infoDivCss = "left: " + (input.position().left + input.offsetWidth) + "px; top: " + input.position().top + "px; z-index: 100000; font-family: arial; font-size: 11px; position: absolute; background-color: white; color: black; opacity: 0.7; border: 1px solid black; padding: 3px;";
                     var infoDiv = document.createElement('div');
 
                     infoDiv.setAttribute('id'   , infoDivId);
@@ -163,15 +174,15 @@ $(function(){
                     return infoDiv;
                 },
 
-                display: function(infoDivId, input$, type) {
+                display: function(infoDivId, input, type) {
                     var infoDiv = document.getElementById(infoDivId);
 
                     if(infoDiv) {
                         infoDiv.style.display = 'inline';
                     }
                     else {
-                        infoDiv = AL.inputs.infoDiv.create(infoDivId, input$, type);
-                        input$.parent().append(infoDiv);
+                        infoDiv = AL.inputs.infoDiv.create(infoDivId, input, type);
+                        document.body.appendChild(infoDiv);
                     }
                 },
 
@@ -187,10 +198,10 @@ $(function(){
                 }
             },
 
-            valueToPut: function(type, input$) {
+            valueToPut: function(type, input) {
                 var valueToPut = null;
                 var valuesList = AL.alValues[type];
-                var currentValue = input$.val();
+                var currentValue = input.value;
 
                 var index = 0;
 
@@ -245,4 +256,4 @@ $(function(){
     setTimeout("AL.initialize.start();", 1000);
     //AL.initialize.start();
 
-})
+})()
