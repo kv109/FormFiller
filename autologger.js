@@ -126,10 +126,20 @@
                         AL.inputs.infoDiv.hide(infoDivId);
                     })
                 }
+
+                HTMLInputElement.prototype.autofill = function(type) {
+                    if(this.empty() || this.withPromptValue(type)) {
+                        var valueToPut = AL.inputs.valueToPut(type, this);
+
+                        if(!valueToPut.match('Set your')) {
+                            this.value = valueToPut;
+                        }
+                    }
+                }
             }(),
 
             start: function(){
-                AL.inputs.prepare()
+                AL.inputs.prepare();
             }
         },
         
@@ -141,15 +151,18 @@
                 var inputs = AL.inputs.findAll();
                 
                 inputs.forEach(function(input) {
-                    var type = input.isALInput();
-                    if(type) {
-                        input.bindALEvents(type);
-                        if(AL.options.autoFill) {
-                            if(input.empty() || input.withPromptValue(type)) {
-                                input.value = AL.inputs.valueToPut(type, input);
-                            }
-                        }
+                    
+                    var isALInput = input.isALInput();
+                    
+                    if(isALInput) {
 
+                        var inputType = isALInput;
+                    
+                        input.bindALEvents(inputType);
+
+                        if(AL.options.autoFill) {
+                            input.autofill(inputType);
+                        }
                     }
                 })
             },
