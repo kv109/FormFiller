@@ -1,21 +1,26 @@
+<!DOCTYPE html>
 <html>
     <head>
-        <script type="text/javascript" src="tea.js"></script>
+        <title>AutoLogger Background Page</title>
+
         <script type="text/javascript" src="utils.js"></script>
 
         <script type="text/javascript">
+
             chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-            if (request.method == "getExtData") {
-                sendResponse({
-                    alValues: _AL_CONF.alValues.get(),
-                    encKey: _AL_CONF.encKey.get(),
-                    options: _AL_CONF.options.get()
-                });
-            }
-            else {
-                sendResponse({});
-            }
-        });
+
+                if (request.method == "getExtData") {
+                    sendResponse({
+                        alValues: _AL_CONF.alValues.get(),
+                        encKey:   _AL_CONF.encKey.get(),
+                        options:  _AL_CONF.options.get()
+                    });
+                }
+                else {
+                    sendResponse({});
+                }
+
+            });
         </script>
 
         <script type="text/javascript">
@@ -32,7 +37,7 @@
 
         </script>
     </head>
-<body>
 
+<body>
 </body>
 </html>
