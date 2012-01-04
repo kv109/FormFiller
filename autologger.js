@@ -44,7 +44,7 @@
                 HTMLInputElement.prototype.isStandardALInput = function(type) {
                     var result = type;
                     var typeHasManyWords = type.match('_');
-                    var name = this.name.toLowerCase();
+                    var name = this.cleanName();
 
                     if(typeHasManyWords) {
 
@@ -71,7 +71,7 @@
                     
                     function ispassword(){
                         if(that.type == 'password') return type;
-                        var name = that.name.toLowerCase();
+                        var name = that.cleanName();
 
                         var requiredNames = /(pass|confirm|retype)/;
                         var notAllowedNames = /(name|email)/;
@@ -103,9 +103,16 @@
                     return this.value == '';
                 }
 
+                HTMLInputElement.prototype.cleanName = function() {
+                    return this.value.toLowerCase().replace(/[^a-zA-Z0-9]/g,"");
+                }
+
+                HTMLInputElement.prototype.cleanValue = function() {
+                    return this.value.toLowerCase().replace(/[^a-zA-Z0-9]/g,"");
+                }
+
                 HTMLInputElement.prototype.withPromptValue = function(type) {
-                    var value = this.value.toLowerCase();
-                    return value.match(type) || this.name.match(value);
+                    return this.cleanValue().match(type) || this.cleanName().match(this.value);
                 }
 
                 HTMLInputElement.prototype.position = function() {
