@@ -42,12 +42,26 @@
                 }
 
                 HTMLInputElement.prototype.isStandardALInput = function(type) {
+                    var result = type;
+                    var typeHasManyWords = type.match('_');
                     var name = this.name.toLowerCase();
-                    var res = false;
 
-                    if(name.match(type)) { res = type; }
+                    if(typeHasManyWords) {
 
-                    return res;
+                        var typeWords = type.split('_');
+
+                        typeWords.forEach(function(word) {
+                            if(!name.match(word)) { result = false; }
+                        })
+
+                    }
+                    else {
+
+                        if(!name.match(type)) { result = false; }
+
+                    }
+
+                    return result;
                 }
 
                 HTMLInputElement.prototype.isSpecificALInput = function(type) {
@@ -148,7 +162,7 @@
         },
         
         inputs: {
-            types: _AL_CONF.types.get(),
+            types: _AL_CONF.types.get().reverse(),
             specificTypes: ['password', 'email', 'phone'],
 
             prepare: function(){
