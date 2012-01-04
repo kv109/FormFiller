@@ -1,6 +1,6 @@
 _AL_CONF = {
     constants: {
-        types: ['login', 'password', 'email', 'name', 'phone', 'street', 'city'],
+        types: ['login', 'password', 'email', 'name', 'last_name', 'phone', 'street', 'city'],
         innerFormClass: '.innerForm',
         localStorageKeys: {
             alValues: '_AL_VALUES',
@@ -51,8 +51,7 @@ _AL_CONF = {
         setTranslations: function() {
             for(var i=0; i<_AL_CONF.types.get().length; i++){
                 var type = _AL_CONF.types.get()[i];
-
-                _AL_CONF.dict.types[type] = _AL_CONF.dict.translation({pluralize: capitalize(type) + '(s)'});
+                _AL_CONF.dict.types[type] = _AL_CONF.dict.translation({pluralize: capitalize(type).replace(/_/g, ' ') + '(s)'});
             }
         },
 
