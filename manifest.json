@@ -14,7 +14,7 @@
     "content_scripts": [
         {
           "matches": ["http://*/*", "https://*/*"],
-          "js": [ "jquery-1.7.1.min.js", "tea.js", "utils.js", "autologger.js" ],
+          "js": [ "tea.js", "utils.js", "autologger.js" ],
           "all_frames": true
         }
       ]
