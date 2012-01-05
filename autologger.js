@@ -90,8 +90,6 @@
 
                     function islast_name(){
                         var isLastNameType = that.isStandardALInput(type) || that.isStandardALInput('second_name') || that.isStandardALInput('surname');
-                        log('last_name');
-                        log(isLastNameType);
                         return (isLastNameType) ? type : false;
                     }
                 }
