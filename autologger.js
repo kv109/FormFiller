@@ -37,7 +37,6 @@
                         
                         return result;
                     })
-                    
                     return result;
                 }
 
@@ -88,6 +87,7 @@
                     function isphone(){
                         return (that.type == 'tel' || that.isStandardALInput(type)) ? type : false;
                     }
+
                 }
 
                 HTMLInputElement.prototype.hasRequiredALInputAttrs = function() {
@@ -104,7 +104,7 @@
                 }
 
                 HTMLInputElement.prototype.cleanName = function() {
-                    return this.value.toLowerCase().replace(/[^a-zA-Z0-9]/g,"");
+                    return this.name.toLowerCase().replace(/[^a-zA-Z0-9]/g,"");
                 }
 
                 HTMLInputElement.prototype.cleanValue = function() {
