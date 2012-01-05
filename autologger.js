@@ -88,6 +88,12 @@
                         return (that.type == 'tel' || that.isStandardALInput(type)) ? type : false;
                     }
 
+                    function islast_name(){
+                        var isLastNameType = that.isStandardALInput(type) || that.isStandardALInput('second_name') || that.isStandardALInput('surname');
+                        log('last_name');
+                        log(isLastNameType);
+                        return (isLastNameType) ? type : false;
+                    }
                 }
 
                 HTMLInputElement.prototype.hasRequiredALInputAttrs = function() {
@@ -170,7 +176,7 @@
         
         inputs: {
             types: _AL_CONF.types.get().reverse(),
-            specificTypes: ['password', 'email', 'phone'],
+            specificTypes: ['password', 'email', 'phone', 'last_name'],
 
             prepare: function(){
                 var inputs = AL.inputs.findAll();
