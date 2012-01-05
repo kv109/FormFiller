@@ -42,12 +42,26 @@
                 }
 
                 HTMLInputElement.prototype.isStandardALInput = function(type) {
-                    var name = this.name.toLowerCase();
-                    var res = false;
+                    var result = type;
+                    var typeHasManyWords = type.match('_');
+                    var name = this.cleanName();
 
-                    if(name.match(type)) { res = type; }
+                    if(typeHasManyWords) {
 
-                    return res;
+                        var typeWords = type.split('_');
+
+                        typeWords.forEach(function(word) {
+                            if(!name.match(word)) { result = false; }
+                        })
+
+                    }
+                    else {
+
+                        if(!name.match(type)) { result = false; }
+
+                    }
+
+                    return result;
                 }
 
                 HTMLInputElement.prototype.isSpecificALInput = function(type) {
@@ -57,7 +71,7 @@
                     
                     function ispassword(){
                         if(that.type == 'password') return type;
-                        var name = that.name.toLowerCase();
+                        var name = that.cleanName();
 
                         var requiredNames = /(pass|confirm|retype)/;
                         var notAllowedNames = /(name|email)/;
@@ -70,12 +84,16 @@
                     function isemail(){
                         return (that.type == 'email' || that.isStandardALInput(type)) ? type : false;
                     }
+
+                    function isphone(){
+                        return (that.type == 'tel' || that.isStandardALInput(type)) ? type : false;
+                    }
                 }
 
                 HTMLInputElement.prototype.hasRequiredALInputAttrs = function() {
                     var nameIsSet = typeof(name) !== 'undefined'
 
-                    var allowedTypes = /(text|password|email)/
+                    var allowedTypes = /(text|password|email|tel)/
                     var typeIsCorrect = this.type.match(allowedTypes);
 
                     return nameIsSet && typeIsCorrect;
@@ -85,9 +103,16 @@
                     return this.value == '';
                 }
 
+                HTMLInputElement.prototype.cleanName = function() {
+                    return this.value.toLowerCase().replace(/[^a-zA-Z0-9]/g,"");
+                }
+
+                HTMLInputElement.prototype.cleanValue = function() {
+                    return this.value.toLowerCase().replace(/[^a-zA-Z0-9]/g,"");
+                }
+
                 HTMLInputElement.prototype.withPromptValue = function(type) {
-                    var value = this.value.toLowerCase();
-                    return value.match(type) || this.name.match(value);
+                    return this.cleanValue().match(type) || this.cleanName().match(this.value);
                 }
 
                 HTMLInputElement.prototype.position = function() {
@@ -144,8 +169,8 @@
         },
         
         inputs: {
-            types: _AL_CONF.types.get(),
-            specificTypes: ['password', 'email'],
+            types: _AL_CONF.types.get().reverse(),
+            specificTypes: ['password', 'email', 'phone'],
 
             prepare: function(){
                 var inputs = AL.inputs.findAll();
