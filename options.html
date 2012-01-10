@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>AutoLogger Options</title>
+    <title>AutoLogger Configuration Page</title>
 
     <style type="text/css">
 
@@ -13,6 +13,7 @@ body {
 .container {
     margin-left: auto;
     margin-right: auto;
+    width: 70%;
 }
 
 .bar {
@@ -20,18 +21,22 @@ body {
 }
 
 .bar1 {
-    width: 30%;
+    width: 26%;
     float: left;
     background-color: #eee;
     padding-left: 30px;
     padding-right: 15px;
-    border-right: 3px solid #222;
+    border-left:   2px solid #222;
+    border-right:  2px solid #222;
+    border-bottom: 2px solid #222;
 }
 .bar2 {
     width: 60%;
     float: left;
     padding-left: 30px;
     padding-right: 15px;
+    border-bottom: 2px solid #222;
+    border-right:  2px solid #222;
 }
 .formContainer h2 {
     color: #0036db;
@@ -92,6 +97,7 @@ body {
     color: #ffb400;
     font-size: large;
     text-align: center;
+    border-bottom: 2px solid #ffb400;
 }
 
 .logo {
@@ -102,6 +108,18 @@ body {
 
 .menu {
     text-align: justify;
+}
+
+.popup {
+    position: fixed;
+    background-color: white;
+    color: black;
+    padding: 10px;
+    border: 1px solid black;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100px;
 }
 
 .submit {
@@ -180,7 +198,15 @@ body {
             })
 
             setAlValues(alValues);
-            alert('Options saved!');
+            showPopup();
+        }
+
+        function showPopup() {
+            var popup = $('<div>');
+            popup.attr('class', 'popup');
+            popup.text('Options saved!');
+            $('.container').append(popup);
+            popup.animate({opacity: 0.0}, 2000);
         }
         
         function getForm() {
@@ -249,6 +275,9 @@ body {
             input.name = name_;
             input.type = type;
             input.size = 37;
+            input.addEventListener('change', function(){
+                saveOptions();
+            })
 
             for(var prop in opts) {
                 input[prop] = opts[prop];
@@ -358,6 +387,7 @@ body {
 
                 $(inputSelector).click(function(){
                     CONF.options.setValue(name, $(inputSelector).is(':checked'));
+                    showPopup();
                 })
             })
 
@@ -377,7 +407,7 @@ body {
 <body onload="initialize();">
     <div class="welcome">
         <img class="logo" alt="logo" src="autologger_icon128x128.png" />
-        Welcome to the AutoLogger options page
+        AutoLogger Configuration Page
     </div>
     <div class="container">
         <div class="bar1 bar">
