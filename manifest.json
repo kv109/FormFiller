@@ -1,6 +1,6 @@
 {
     "name": "FormFiller",
-    "version": "0.0.7",
+    "version": "0.0.7.1",
     "description": "Fills web forms for you.",
     "icons": { "1": "autologger_icon.png" },
      "browser_action": {
