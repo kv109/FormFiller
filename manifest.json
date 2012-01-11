@@ -1,12 +1,12 @@
 {
-    "name": "AutoLogger",
-    "version": "0.0.6",
-    "description": "Fills web forms fields for you.",
+    "name": "FormFiller",
+    "version": "0.0.7",
+    "description": "Fills web forms for you.",
     "icons": { "1": "autologger_icon.png" },
      "browser_action": {
         "default_icon": "autologger_icon128x128.png",
         "popup": "popup.html",
-        "title": "AutoLogger"
+        "title": "FormFiller"
       },
     "permissions": ["*"],
     "options_page": "options.html",
