@@ -80,6 +80,23 @@
                         return res ? type : null
                     }
 
+                    function islogin(){
+                        var result = that.isStandardALInput(type);
+
+                        if(result) {
+                            if( byLoginTheyMeanEmail() ) {
+                                result = 'email';
+                            }
+                        }
+
+                        function byLoginTheyMeanEmail() {
+                            var label = that.findLabel();
+                            return label && label.innerText.toLowerCase().replace(/[^A-Za-z]/, "").match('email');
+                        }
+
+                        return result
+                    }
+
                     function isemail(){
                         return (that.type == 'email' || that.isStandardALInput(type)) ? type : false;
                     }
@@ -133,6 +150,28 @@
                     return {left: curleft, top: curtop}
                 }
 
+                HTMLInputElement.prototype.findLabel = function() {
+                    var that = this;
+                    var label = null;
+
+                    var parent = that.parentNode;
+                    if( parent ) var neighbours = parent.childNodes;
+
+                    if( neighbours.length ) {
+                        neighbours.toArray().some(function(neighbour) {
+                            if( neighbour.tagName == "LABEL" ) {
+                                var forAttr = neighbour.getAttribute('for');
+                                if( forAttr == that.id || forAttr == that.name ) {
+                                    label = neighbour;
+                                    return true;
+                                }
+                            }
+                        })
+                    }
+
+                    return label;
+                }
+
                 HTMLInputElement.prototype.bindALEvents = function(type) {
                     var that = this;
                     var infoDivId = '__AL109'+this.name;
@@ -164,6 +203,14 @@
                             this.value = valueToPut;
                         }
                     }
+                },
+
+                NodeList.prototype.toArray = function() {
+                    var htmlElements = []
+                    for(var i=0; i<this.length; i++) {
+                        htmlElements.push(this[i]);
+                    }
+                    return htmlElements;
                 }
             }(),
 
@@ -174,7 +221,7 @@
         
         inputs: {
             types: _AL_CONF.types.get().reverse(),
-            specificTypes: ['password', 'email', 'phone', 'last_name'],
+            specificTypes: ['login', 'password', 'email', 'phone', 'last_name'],
 
             prepare: function(){
                 var inputs = AL.inputs.findAll();
