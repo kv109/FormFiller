@@ -116,7 +116,7 @@
                 }
 
                 HTMLInputElement.prototype.withPromptValue = function(type) {
-                    return this.cleanValue().match(type) || this.cleanName().match(this.value);
+                    return this.cleanValue().match(type) || this.cleanName().match(this.cleanValue());
                 }
 
                 HTMLInputElement.prototype.position = function() {
