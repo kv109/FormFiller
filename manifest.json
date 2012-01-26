@@ -1,12 +1,12 @@
 {
-    "name": "FormFiller",
-    "version": "0.0.7.1",
+    "name": "Form Filler",
+    "version": "0.0.8",
     "description": "Fills web forms for you.",
     "icons": { "1": "autologger_icon.png" },
      "browser_action": {
         "default_icon": "autologger_icon128x128.png",
         "popup": "popup.html",
-        "title": "FormFiller"
+        "title": "Form Filler"
       },
     "permissions": ["*"],
     "options_page": "options.html",
