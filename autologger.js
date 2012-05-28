@@ -69,7 +69,7 @@
                     return eval('is' + type + '()');
                     
                     function ispassword(){
-                        if(that.type == 'password') return type;
+                        if(that.type != 'password') return null;
                         var name = that.cleanName();
 
                         var requiredNames = /(pass|confirm|retype)/;
