@@ -69,15 +69,7 @@
                     return eval('is' + type + '()');
                     
                     function ispassword(){
-                        if(that.type != 'password') return null;
-                        var name = that.cleanName();
-
-                        var requiredNames = /(pass|confirm|retype)/;
-                        var notAllowedNames = /(name|email)/;
-
-                        var res = name.match(requiredNames) && !name.match(notAllowedNames);
-
-                        return res ? type : null
+                        return that.type == 'password' ? type : false;
                     }
 
                     function islogin(){
