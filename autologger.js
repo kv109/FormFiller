@@ -7,6 +7,7 @@
 
                 chrome.extension.sendRequest({method: "getExtData"}, function(response) {
                     AL.alValues = response.alValues;
+                    AL.alTypes = AL.alValues.keys().reverse();
                     AL.encKey = response.encKey;
                     AL.options = response.options;
                 });
@@ -21,11 +22,10 @@
 
                     if ( !that.hasRequiredALInputAttrs() ) { return false }
 
-                    var types         = AL.inputs.types;
+                    var types         = AL.inputs.types();
                     var specificTypes = AL.inputs.specificTypes;
 
                     types.some(function(type){
-
                         var isSpecific = specificTypes.some(function(specificType) { return type == specificType; })
 
                         if(isSpecific){
@@ -220,7 +220,7 @@
         },
         
         inputs: {
-            types: _AL_CONF.types.get().reverse(),
+            types: function(){return AL.alTypes},
             specificTypes: ['login', 'password', 'email', 'phone', 'last_name'],
 
             prepare: function(){
@@ -342,7 +342,7 @@
         }
     }
 
-    setTimeout("AL.initialize.start();", 1000);
+    setTimeout("AL.initialize.start();", 500);
     //AL.initialize.start();
 
 })()

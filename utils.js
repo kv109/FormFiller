@@ -81,10 +81,10 @@ _AL_CONF = {
             return _AL_CONF.constants.localStorageKeys.alValues;
         },
         get: function() {
-            return fromStorage(_AL_CONF.alValues.lsKey);
+            return fromStorage(_AL_CONF.alValues.lsKey());
         },
         set: function(alValues) {
-            return toStorage(_AL_CONF.alValues.lsKey, alValues);
+            return toStorage(_AL_CONF.alValues.lsKey(), alValues);
         }
     },
 
@@ -158,4 +158,14 @@ function randomString(length, type) {
             randomstring += chars.substring(rnum,rnum+1);
     }
     return randomstring;
+}
+
+Object.prototype.keys = function ()
+{
+  var keys = [];
+  for(var i in this) if (this.hasOwnProperty(i))
+  {
+    keys.push(i);
+  }
+  return keys;
 }
