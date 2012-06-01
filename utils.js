@@ -1,4 +1,6 @@
+
 _AL_CONF = {
+    version : '1.0.0',
     constants: {
         types: ['login', 'password', 'email', 'name', 'last_name', 'phone', 'street', 'city'],
         innerFormClass: '.innerForm',
