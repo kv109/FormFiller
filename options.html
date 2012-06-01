@@ -1,6 +1,7 @@
 <html>
 <head>
     <title>FormFiller Configuration Page</title>
+    <meta name="Author" content="Kacper Walanus" />
 
     <style type="text/css">
 
@@ -376,7 +377,7 @@ body {
         function initialize(){
             prepareOptionsPanel();
             generateForm();
-            $('.bar1').css('height', $('.bar2').height())
+            $('.bar1').css('height', $('.bar2').height());
             setEvents();
         }
 
@@ -415,6 +416,7 @@ body {
             generateAndAppendTypeBefore(type);
             generateAndAppendInput([type, capitalize(type) + ' (1)'], 'text');
             generateAndAppendTypeAfter(type);
+            $('.inputs input:last').focus();
         }
 
         function setEvents(){
