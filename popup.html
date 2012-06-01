@@ -1,16 +1,65 @@
-<div style="font-family: verdana; font-size: 12px; width: 160px; font-weight: bold; text-align: center;">
+<html>
+    <head>
+        <meta name="Author" content="Kacper Walanus" />
+        <style>
+            body {
+                margin: 0px;
+                padding: 0px;
+                background-color: #000;
+                font-family: arial; 
+                font-size: 12px; 
+                width: 150px; 
+                text-align: center;
+            }
+            .container {
+                padding: 20px;
+            }
+            .logo {
+                padding: 5px;    
+                font-weight: bold;
+                color: #ffb400;
+                font-size: large;
+                text-align: center;
+                text-shadow: red 0.1em 0.1em 0.2em;
+            }
+            .bold {
+                font-weight: bold;
+            }
+            p.options {
+                margin: 20px 0px;
+            }
+            span.options {
+                padding: 5px;
+                border: 1px solid #ddd;
+                background-color: #eee;
+                border-radius: 3px 3px;
+            }
+        </style>
+    </head>
+    <body>
+<div class="container">
     <p>
-        <span style="color: #005698">Form</span><span style="color: #ff3200">Filler</span> is working :)
+        <span class="logo">FormFiller</span>
+        <br />
+        <span class="logo" style="font-size: smaller">is working</span>
     </p>
-    <img class="logo" alt="logo" src="autologger_icon128x128.png" width="20" height="20"/>
-    <img class="logo" alt="logo" src="autologger_icon128x128.png" width="20" height="20"/>
-    <img class="logo" alt="logo" src="autologger_icon128x128.png" width="20" height="20"/>
-    <p>
-        <a href="javascript:void(0)"
+
+    <p class="options">
+        <span class="logo" style="font-size: 12px"
            onclick="window.open(chrome.extension.getURL('options.html'))"
-           onmouseover="this.style.textDecoration = 'underline'"
+           onmouseover="this.style.textDecoration = 'underline'; this.style.cursor = 'pointer'"
            onmouseout ="this.style.textDecoration = 'none'"
-           style="text-decoration: none; color: inherit;">Configure</a> it!
+        >
+            OPTIONS
+        </span>
+    </p>
+    
+    <p>
+        <span class="logo" style="font-size: 11px">version: 1.0.0</span>
+        
+<!--        <img class="logo2" alt="logo" src="autologger_icon128x128.png" width="20" height="20"/>-->
     </p>
 </div>
 
+    </body>
+</html>
