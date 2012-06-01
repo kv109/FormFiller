@@ -1,0 +1,98 @@
+<html>
+<head>
+    <title>FormFiller Test Page</title>
+    <style>
+        form {
+            text-align: center;
+}
+    </style>
+</head>
+<body>
+
+    <form action="" >
+    </form>
+
+</body>
+<script type="text/javascript">
+    var inputs = {
+        last_name:
+            [
+                'last_name',
+                'subname',
+                'Surname',
+                'suRName',
+                'lastName',
+                'second_name',
+                'secondName',
+            ],
+        email: [
+            'email',
+            'mail'
+        ]
+    }
+
+    var types = ['last_name', 'email'];
+
+    types.forEach(function(type) {
+        var div   = document.createElement('div');
+        div.setAttribute('class', 'type ' + type);
+
+        inputs[type].forEach(function(inputName) {
+            var par   = document.createElement('p');
+            var input = document.createElement('input');
+            var label = document.createElement('label');
+
+            input.name = inputName;
+            input.setAttribute('class', type);
+            label.innerHTML = inputName;
+
+            par.appendChild(label);
+            par.appendChild(input);
+            div.appendChild(par);
+
+            document.forms[0].appendChild(div);
+        })
+    })
+
+    setTimeout(verify, 1500);
+
+    function verify(){
+        var inputsByType = {}
+        var inputs = document.getElementsByTagName('input');
+
+        types.forEach(function(type) {
+            inputsByType[type] = []
+
+            for(var i = 0; i<inputs.length; i++) {
+                var input = inputs[i];
+                var klass = input.getAttribute('class');
+                if( klass.match(type) ) {
+                    inputsByType[type].push(input);
+                }
+            }
+        })
+
+
+        for(var type in inputsByType) {
+            var typeInputs = inputsByType[type];
+            var correctAnswer = typeInputs[0].value;
+            for(var i = 1; i<typeInputs.length; i++) {
+                var input = typeInputs[i];
+                if( input.value == correctAnswer ) {
+                    var span = document.createElement('span');
+                    span.innerHTML = "OK";
+                    span.style.color = "green"
+                    input.parentNode.appendChild(span);
+                }
+                else {
+                    span = document.createElement('span');
+                    span.innerHTML = "WRONG";
+                    span.style.color = "red"
+                    input.parentNode.appendChild(span);
+                }
+            }
+        }
+    }
+</script>
+</html>
+
