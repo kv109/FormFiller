@@ -1,6 +1,7 @@
 {
     "name": "Form Filler",
     "version": "1.0.0",
+    "manifest_version": 2,
     "description": "Fills web forms for you.",
     "icons": { "1": "autologger_icon.png" },
      "browser_action": {
@@ -8,9 +9,11 @@
         "popup": "popup.html",
         "title": "Form Filler"
       },
-    "permissions": ["*"],
     "options_page": "options.html",
-    "background_page": "background.html",
+    "background": {
+        "scripts": ["utils.js", "background.js"],
+        "persistent": false
+    },
     "content_scripts": [
         {
           "matches": ["http://*/*", "https://*/*"],
