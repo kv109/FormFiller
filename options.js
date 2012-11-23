@@ -1,11 +1,11 @@
 $(function(){
 var CONF = _AL_CONF
-var TYPES = CONF.types.get();
+var DEFAULT_TYPES = CONF.types.getDefault();
 
 function defaultAlValues() {
     var defaultAlValues = {};
-    for(var i = 0; i<TYPES.length; i++) {
-        var type = TYPES[i];
+    for(var i = 0; i<DEFAULT_TYPES.length; i++) {
+        var type = DEFAULT_TYPES[i];
         var defaultValue = 'Set your ' + type + ' in FormFiller options page';
         defaultValue = Tea.encrypt(defaultValue, CONF.encKey.get());
         defaultAlValues[type] = [defaultValue];
@@ -129,7 +129,7 @@ function generateStandardInput(name, type, opts) {
 function generateAndAppendTypeAfter(type) {
     var container = $('<div>');
     container.addClass('typeContainer');
-    var customType = !~TYPES.indexOf(type);
+    var customType = !~DEFAULT_TYPES.indexOf(type);
     if(customType) container.addClass('custom');
     var addAnotherOne = $('<a>');
     addAnotherOne.text("Add");

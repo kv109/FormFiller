@@ -51,8 +51,9 @@ _AL_CONF = {
         },
 
         setTranslations: function() {
-            for(var i=0; i<_AL_CONF.types.get().length; i++){
-                var type = _AL_CONF.types.get()[i];
+            var types = _AL_CONF.types.getDefault();
+            for(var i=0; i<types.length; i++){
+                var type = types[i];
                 _AL_CONF.dict.types[type] = _AL_CONF.dict.translation({pluralize: capitalize(type).replace(/_/g, ' ') + '(s)'});
             }
         },
@@ -73,8 +74,11 @@ _AL_CONF = {
     },
 
     types: {
-        get: function() {
+        getDefault: function() {
             return _AL_CONF.constants.types;
+        },
+        get: function() {
+            return _AL_CONF.alValues.get().keys();
         }
     },
 

@@ -7,7 +7,7 @@
 
                 chrome.extension.sendRequest({method: "getExtData"}, function(response) {
                     AL.alValues = response.alValues;
-                    AL.alTypes = AL.alValues.keys().reverse();
+                    AL.alTypes = response.types.reverse();
                     AL.encKey = response.encKey;
                     AL.options = response.options;
                 });
