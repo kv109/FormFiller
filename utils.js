@@ -162,10 +162,16 @@ _AL_CONF = {
         set: function(alValues, sync) {
             var key = _AL_CONF.alValues.lsKey();
             if(sync!=false) {
+		alValues = _AL_CONF.alValues.clear(alValues);
+		log(alValues);
                 _AL_CONF.sync.send(alValues);
             }
             toStorage(key, alValues);
-        }
+        },
+	clear: function(alValues) {
+		delete alValues['password'];
+		return alValues;
+	}
     },
 
     encKey: {
