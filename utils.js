@@ -168,9 +168,23 @@ _AL_CONF = {
             }
             toStorage(key, alValues);
         },
+	getKeys: function() {
+		var keys = _AL_CONF.alValues.get().keys();
+		log(keys)
+		var defaultTypes = _AL_CONF.types.get();
+		log(defaultTypes)
+		var nonDefaultTypes = [];
+		keys.forEach(function(key) {
+			if(defaultTypes.indexOf(key) == -1)	{
+				nonDefaultTypes.push(key);
+			}
+		})
+		return defaultTypes.concat(nonDefaultTypes);
+	},
 	clear: function(alValues) {
-		delete alValues['password'];
-		return alValues;
+		var clone = alValues;
+		delete clone['password'];
+		return clone;
 	}
     },
 
