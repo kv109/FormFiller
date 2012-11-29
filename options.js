@@ -268,6 +268,13 @@ $(function(){
 			saveNewType(type);
 		})
 
+		var synchronize = $('.synchronize');
+		synchronize.click(function(){
+			var ok = confirm('This operation will overwrite your data if they were changed on another browser. Are you sure?')
+			CONF.sync.get();
+			generateForm();
+		})
+
 	}
 
 	function saveNewType(type) {
