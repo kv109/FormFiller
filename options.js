@@ -51,14 +51,19 @@ function numberOfTypeInputs(type) {
 function generateForm() {
     var clearForm = function(){if(getForm().length) $(CONF.constants.innerFormClass + ' .inputs', getForm()).html("");}();
 
-    var alValues = CONF.alValues.get();
+    var alValues = {}
+    var types = [];
+
+    alValues = CONF.alValues.get();
 
     if( alValues == null ) {
-        var setDefaultValues = function() {
-            alValues = defaultAlValues();
-        }()
+        alValues = defaultAlValues();
+	types = alValues.keys();
     }
-    alValues.keys().forEach(function(type) {
+    else {
+	    types = CONF.alValues.getKeys();
+    }
+    types.forEach(function(type) {
         var values = alValues[type];
 
         generateAndAppendTypeBefore(type);
