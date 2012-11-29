@@ -7,9 +7,11 @@
 
                 chrome.extension.sendRequest({method: "getExtData"}, function(response) {
                     AL.alValues = response.alValues;
-                    AL.alTypes = AL.alValues.keys().reverse();
-                    AL.encKey = response.encKey;
-                    AL.options = response.options;
+		    if(AL.alValues) {
+			    AL.alTypes = AL.alValues.keys().reverse();
+			    AL.encKey = response.encKey;
+			    AL.options = response.options;
+		    }
                 });
             
             }(),
@@ -207,7 +209,9 @@
             }(),
 
             start: function(){
-                AL.inputs.prepare();
+		if(AL.alValues) {
+			AL.inputs.prepare();
+		}
             }
         },
         
