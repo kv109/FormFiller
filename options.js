@@ -2,18 +2,6 @@ $(function(){
 	var CONF = _AL_CONF
 	var TYPES = CONF.types.get();
 
-	function defaultAlValues() {
-		var defaultAlValues = {};
-		for(var i = 0; i<TYPES.length; i++) {
-			var type = TYPES[i];
-			var defaultValue = 'Set your ' + type + ' in FormFiller options page';
-			defaultValue = Tea.encrypt(defaultValue, CONF.encKey.get());
-			defaultAlValues[type] = [defaultValue];
-		}
-
-		return defaultAlValues;
-	}
-
 	function saveOptions() {
 		var formValues = getForm().serializeArray();
 		var alValues = {}
@@ -55,18 +43,8 @@ $(function(){
 			if(getForm().length) $(CONF.constants.innerFormClass + ' .inputs', getForm()).html("");
 		}();
 
-		var alValues = {}
-		var types = [];
-
-		alValues = CONF.alValues.get();
-
-		if( alValues == null ) {
-			alValues = defaultAlValues();
-			types = alValues.keys();
-		}
-		else {
-			types = CONF.alValues.getKeys();
-		}
+		var alValues = CONF.alValues.get();
+		var types = CONF.alValues.getKeys();
 
 		types.forEach(function(type) {
 			var values = alValues[type];

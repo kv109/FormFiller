@@ -135,6 +135,13 @@ _AL_CONF = {
             _AL_CONF.sync.get();
         },
 
+        setDefaultAlValues: function() {
+	    var currentAlValues = _AL_CONF.alValues.get();
+	    if(typeof(currentAlValues)=='undefined' || currentAlValues == null) {
+		    _AL_CONF.alValues.setDefault();
+	    }
+	},
+
         start: function() {
             var _init = _AL_CONF.initialize;
             _init.setLocalStorage.encKey();
@@ -142,6 +149,7 @@ _AL_CONF = {
             _init.setTranslations();
             _init.setDefaultOptions();
             _init.synchronizeConf();
+            _init.setDefaultAlValues();
             _init.setEvents();
         }
     },
@@ -162,17 +170,14 @@ _AL_CONF = {
         set: function(alValues, sync) {
             var key = _AL_CONF.alValues.lsKey();
             if(sync!=false) {
-		alValues = _AL_CONF.alValues.clear(alValues);
-		log(alValues);
+		//alValues = _AL_CONF.alValues.clear(alValues);
                 _AL_CONF.sync.send(alValues);
             }
             toStorage(key, alValues);
         },
 	getKeys: function() {
 		var keys = _AL_CONF.alValues.get().keys();
-		log(keys)
 		var defaultTypes = _AL_CONF.types.get();
-		log(defaultTypes)
 		var nonDefaultTypes = [];
 		keys.forEach(function(key) {
 			if(defaultTypes.indexOf(key) == -1)	{
@@ -185,6 +190,18 @@ _AL_CONF = {
 		var clone = alValues;
 		delete clone['password'];
 		return clone;
+	},
+	setDefault: function() {
+
+		var defaultAlValues = {};
+		var types = _AL_CONF.types.get();
+		types.forEach(function(type) {
+			var defaultValue = 'Set your ' + type + ' in FormFiller options page';
+			defaultValue = Tea.encrypt(defaultValue, _AL_CONF.encKey.get());
+			defaultAlValues[type] = [defaultValue];
+		})
+
+		_AL_CONF.alValues.set(defaultAlValues, false);
 	}
     },
 
