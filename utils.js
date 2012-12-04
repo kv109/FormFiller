@@ -27,6 +27,17 @@ _AL_CONF = {
             var encKey = changes[_AL_CONF.encKey.lsKey()];
             
             if(alValues) {
+		if(typeof(alValues.password) == 'undefined') {
+			var currentPassword;
+			if( _AL_CONF.alValues.present() ) {
+				currentPassword = _AL_CONF.alValues.get().password;
+			}
+			if(typeof(currentPassword)!='string') {
+				currentPassword = Tea.decrypt('Set your password!', encKey);
+			}
+			alValues.password = currentPassword;
+
+		}
                 _AL_CONF.alValues.set(alValues, false);
             }
             
@@ -137,8 +148,7 @@ _AL_CONF = {
         },
 
         setDefaultAlValues: function() {
-	    var currentAlValues = _AL_CONF.alValues.get();
-	    if(typeof(currentAlValues)=='undefined' || currentAlValues == null) {
+	    if(! _AL_CONF.alValues.present()) {
 		    _AL_CONF.alValues.setDefault();
 	    }
 	},
@@ -160,7 +170,7 @@ _AL_CONF = {
             return _AL_CONF.constants.types;
         },
         get: function() {
-            return _AL_CONF.alValues.get().keys();
+            return _AL_CONF.alValues.getKeys();
         }
     },
 
@@ -180,8 +190,9 @@ _AL_CONF = {
             toStorage(key, alValues);
         },
 	getKeys: function() {
+		if(! _AL_CONF.alValues.present()) { return []; }
 		var keys = _AL_CONF.alValues.get().keys();
-		var defaultTypes = _AL_CONF.types.get();
+		var defaultTypes = _AL_CONF.types.getDefault();
 		var nonDefaultTypes = [];
 		keys.forEach(function(key) {
 			if(defaultTypes.indexOf(key) == -1)	{
@@ -196,9 +207,8 @@ _AL_CONF = {
 		return clone;
 	},
 	setDefault: function() {
-
 		var defaultAlValues = {};
-		var types = _AL_CONF.types.get();
+		var types = _AL_CONF.types.getDefault();
 		types.forEach(function(type) {
 			var defaultValue = 'Set your ' + type + ' in FormFiller options page';
 			defaultValue = Tea.encrypt(defaultValue, _AL_CONF.encKey.get());
@@ -206,6 +216,10 @@ _AL_CONF = {
 		})
 
 		_AL_CONF.alValues.set(defaultAlValues, false);
+	},
+	present: function() {
+		var alValues = _AL_CONF.alValues.get();
+		return typeof(alValues) != 'undefined' && alValues != null;
 	}
     },
 

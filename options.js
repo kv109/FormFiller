@@ -1,6 +1,6 @@
 $(function(){
 	var CONF = _AL_CONF
-	var TYPES = CONF.types.get();
+	var TYPES = CONF.types.getDefault();
 
 	function saveOptions() {
 		var formValues = getForm().serializeArray();
