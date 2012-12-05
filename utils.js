@@ -25,14 +25,21 @@ _AL_CONF = {
         receive: function(changes) {
             var alValues = changes[_AL_CONF.alValues.lsKey()];
             var encKey = changes[_AL_CONF.encKey.lsKey()];
+            var oldEncKey = _AL_CONF.encKey.get();
 
 		if(encKey && alValues) {
 
 			// never receive password
 			if( _AL_CONF.alValues.present() ) { 
-				var currentPassword = _AL_CONF.alValues.get().password; 
-				if(currentPassword) {
-					alValues.password = currentPassword;
+				var currentPasswordArray = _AL_CONF.alValues.get().password; 
+				if(currentPasswordArray) {
+					var newCurrentPasswordArray = []
+					currentPasswordArray.forEach(function(currentPassword) {
+						currentPassword = Tea.decrypt(currentPassword, oldEncKey);
+						currentPassword = Tea.encrypt(currentPassword, encKey);
+						newCurrentPasswordArray.push(currentPassword);
+					})
+					alValues.password = newCurrentPasswordArray;
 				}
 			}
 			if(!alValues.password) {
