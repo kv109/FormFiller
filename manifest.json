@@ -7,7 +7,7 @@
     "icons": { "1": "autologger_icon.png" },
      "browser_action": {
         "default_icon": "autologger_icon128x128.png",
-        "default_popup": "popup.html",
+        "default_popup": "popup/popup.html",
         "default_title": "Form Filler"
       },
     "options_page": "options.html",
