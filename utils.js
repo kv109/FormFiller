@@ -25,25 +25,25 @@ _AL_CONF = {
         receive: function(changes) {
             var alValues = changes[_AL_CONF.alValues.lsKey()];
             var encKey = changes[_AL_CONF.encKey.lsKey()];
-            
-            if(alValues) {
-		if(typeof(alValues.password) == 'undefined') {
-			var currentPassword;
-			if( _AL_CONF.alValues.present() ) {
-				currentPassword = _AL_CONF.alValues.get().password;
-			}
-			if(typeof(currentPassword)!='string') {
-				currentPassword = Tea.decrypt('Set your password!', encKey);
-			}
-			alValues.password = currentPassword;
 
+		if(encKey && alValues) {
+
+			// never receive password
+			if( _AL_CONF.alValues.present() ) { 
+				var currentPassword = _AL_CONF.alValues.get().password; 
+				if(currentPassword) {
+					alValues.password = currentPassword;
+				}
+			}
+			if(!alValues.password) {
+				var defaultPassword = [Tea.encrypt('Set your password in FormFiller options page', encKey)];
+				alValues.password = defaultPassword;
+			}
+
+			_AL_CONF.encKey.set(encKey, false);
+			_AL_CONF.alValues.set(alValues, false);
 		}
-                _AL_CONF.alValues.set(alValues, false);
-            }
             
-            if(encKey) {
-                _AL_CONF.encKey.set(encKey, false);
-            }
         },
         
         get: function() {
@@ -183,15 +183,17 @@ _AL_CONF = {
         },
         set: function(alValues, sync) {
             var key = _AL_CONF.alValues.lsKey();
+
             if(sync!=false) {
-		//alValues = _AL_CONF.alValues.clear(alValues);
-                _AL_CONF.sync.send(alValues);
+		var alValuesWithoutPassword = _AL_CONF.alValues.clear(alValues);
+                _AL_CONF.sync.send(alValuesWithoutPassword);
             }
+
             toStorage(key, alValues);
         },
 	getKeys: function() {
 		if(! _AL_CONF.alValues.present()) { return []; }
-		var keys = _AL_CONF.alValues.get().keys();
+		var keys = properties(_AL_CONF.alValues.get());
 		var defaultTypes = _AL_CONF.types.getDefault();
 		var nonDefaultTypes = [];
 		keys.forEach(function(key) {
@@ -202,9 +204,9 @@ _AL_CONF = {
 		return defaultTypes.concat(nonDefaultTypes);
 	},
 	clear: function(alValues) {
-		var clone = alValues;
-		delete clone['password'];
-		return clone;
+		var aVclone = clone(alValues);
+		delete aVclone['password'];
+		return aVclone;
 	},
 	setDefault: function() {
 		var defaultAlValues = {};
@@ -301,10 +303,17 @@ function randomString(length, type) {
     return randomstring;
 }
 
-Object.prototype.keys = function ()
+function clone(obj)
+ { var clone = {};
+   clone.prototype = obj.prototype;
+   for (var property in obj) clone[property] = obj[property];
+   return clone;
+ }
+
+function properties(object)
 {
   var keys = [];
-  for(var i in this) if (this.hasOwnProperty(i))
+  for(var i in object) if (object.hasOwnProperty(i))
   {
     keys.push(i);
   }
