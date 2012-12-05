@@ -1,5 +1,5 @@
 _AL_CONF = {
-    version : '1.0.0',
+    version : chrome.app.getDetails().version,
     storage: chrome.storage.sync,
     constants: {
         types: ['login', 'password', 'email', 'name', 'last_name', 'phone', 'street', 'city'],

@@ -5,61 +5,58 @@
             body {
                 margin: 0px;
                 padding: 0px;
-                background-color: #000;
+                background-color: #111;
                 font-family: arial; 
-                font-size: 12px; 
+                font-size: 18px; 
                 width: 150px; 
                 text-align: center;
             }
+	    body * {
+                color: #ffb400;
+	    }
             .container {
                 padding: 20px;
             }
-            .logo {
+            .fireFont {
                 padding: 5px;    
                 font-weight: bold;
-                color: #ffb400;
-                font-size: large;
-                text-align: center;
                 text-shadow: red 0.1em 0.1em 0.2em;
             }
-            .bold {
-                font-weight: bold;
-            }
-            p.options {
+            .options {
                 margin: 20px 0px;
             }
-            span.options {
-                padding: 5px;
-                border: 1px solid #ddd;
-                background-color: #eee;
-                border-radius: 3px 3px;
-            }
+	    .options a {
+		text-decoration: none;
+		outline: none;
+	    }
+	    .options a:hover {
+		text-decoration: underline;
+	    }
+	    .smaller {
+		font-size: 11px;
+	    }
         </style>
     </head>
     <body>
+
 <div class="container">
     <p>
-        <span class="logo">FormFiller</span>
+        <span class="fireFont">FormFiller</span>
         <br />
-        <span class="logo" style="font-size: smaller">is working</span>
+        <span class="fireFont smaller">is working</span>
     </p>
 
     <p class="options">
-        <span class="logo" style="font-size: 12px"
-           onclick="window.open(chrome.extension.getURL('options.html'))"
-           onmouseover="this.style.textDecoration = 'underline'; this.style.cursor = 'pointer'"
-           onmouseout ="this.style.textDecoration = 'none'"
-        >
-            OPTIONS
-        </span>
+	<!-- href is filled with js -->
+        <a id="optionsOpener" class="fireFont" href="" target="_BLANK">OPTIONS</a>
     </p>
     
     <p>
-        <span class="logo" style="font-size: 11px">version: 1.0.0</span>
-        
-<!--        <img class="logo2" alt="logo" src="autologger_icon128x128.png" width="20" height="20"/>-->
+	<!-- version number is filled with js -->
+        <span id="version" class="fireFont smaller"></span>
     </p>
 </div>
 
+    <script type="text/javascript" src="popup.js"></script>
     </body>
 </html>
