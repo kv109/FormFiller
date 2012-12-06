@@ -15,7 +15,7 @@
         "storage"
     ],
     "background": {
-        "scripts": ["tea.js", "constants.js", "functions.js", "utils.js", "background.js"],
+        "scripts": ["constants.js", "functions.js", "background.js"],
         "persistent": false
     },
     "content_scripts": [

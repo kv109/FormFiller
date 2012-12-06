@@ -209,9 +209,10 @@
             }(),
 
             start: function(){
-		if(AL.alValues) {
-			AL.inputs.prepare();
-		}
+				if(AL.alValues) {
+					AL.inputs.prepare();
+				}
+				AL = null;
             }
         },
         
