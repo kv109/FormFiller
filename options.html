@@ -11,6 +11,9 @@ body {
     font-family: arial;
     font-size: 12px;
 }
+h2 {
+	font-weight: normal;
+}
 .container {
     margin-left: auto;
     margin-right: auto;
@@ -27,9 +30,9 @@ body {
     background-color: #eee;
     padding-left: 30px;
     padding-right: 15px;
-    border-left:   2px solid #222;
-    border-right:  2px solid #222;
-    border-bottom: 2px solid #222;
+    border-left:   1px solid #222;
+    border-right:  1px solid #222;
+    border-bottom: 1px solid #222;
 }
 .bar1 .element {
     margin-bottom: 5px;
@@ -40,14 +43,13 @@ body {
     float: left;
     padding-left: 30px;
     padding-right: 15px;
-    border-bottom: 2px solid #222;
-    border-right:  2px solid #222;
+    border-bottom: 1px solid #222;
+    border-right:  1px solid #222;
 }
 .formContainer h2 {
-    color: #0036db;
+    color: #0036C6;
     font-size: inherit;
     text-transform: uppercase;
-    font-weight: bold;
     padding: 0;
     margin: 0;
     margin-bottom: 5px;
@@ -103,7 +105,9 @@ body {
     font-size: large;
     text-align: center;
     text-shadow: red 0.1em 0.1em 0.2em;
-    border-bottom: 2px solid #ffb400;
+	position: fixed;
+	width: 100%;
+	z-index: 100;
 }
 
 .logo {
@@ -114,16 +118,18 @@ body {
 
 .menu {
     text-align: justify;
+	margin-bottom: 20px;
 }
 
 .popup {
     position: fixed;
+	z-index: 101;
     background-color: white;
     background-color: #7b8;
     text-shadow: black 0.1em 0.1em 0.2em;
     font-weight: bold;
     color: white;
-    padding: 10px;
+    padding: 7px;
     border: 2px solid green;
     text-align: center;
     margin-left: auto;
@@ -153,7 +159,22 @@ body {
     border: 1px solid black;
     padding: 3px;
 }
-
+.changeLog ul { 
+	margin: 0px;
+	padding: 0px;
+}
+.changeLog ul li { 
+	font-weight: bold;
+	list-style-type: none;
+	padding: 0px 0px 8px 0px;
+}
+.changeLog ul li ul li { 
+	list-style-position: inside;
+	font-weight: normal;
+	list-style-image: url(img/logo12x12.png); 
+	padding-top: 5px;
+	padding-left: 15px;
+}
     </style>
     <script type="text/javascript" src="jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="tea.js"></script>
@@ -172,6 +193,7 @@ body {
     <div class="container">
         <div class="bar1 bar">
             <div class="menu">
+				<h2>Options</h2>
                 <div>
                     <div class="element showPassword">
                         <input type="checkbox" /> Show the first and the last char from your password.
@@ -188,6 +210,25 @@ body {
                     </div>
                 </div>
             </div>
+			<hr />
+			<div class="changelog">
+				<h2>Change log</h2>
+				<ul>
+					<li>
+						1.1.0
+						<ul>
+							<li>Form Filler data synchronization between Chrome Browsers.</li>
+							<li>Reduced memory usage (~35%).</li>
+						</ul>
+					</li>
+					<li>
+						1.0.0
+						<ul>
+							<li>First stable version.</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
         </div>
 
         <div class="bar2 bar">
