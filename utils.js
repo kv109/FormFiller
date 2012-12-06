@@ -2,13 +2,8 @@ _AL_CONF = {
     version : chrome.app.getDetails().version,
     storage: chrome.storage.sync,
     constants: {
-        types: ['login', 'password', 'email', 'name', 'last_name', 'phone', 'street', 'city'],
-        localStorageKeys: {
-            alValues: '_AL_VALUES',
-            encKey: '_AL_ENC_KEY',
-            options: '_AL_OPTIONS',
-            optionsNumber: '_AL_OPTIONS_NUMBER'
-        }
+        types: TYPES,
+        localStorageKeys: LOCAL_STORAGE_KEYS
     },
     
     sync: {
