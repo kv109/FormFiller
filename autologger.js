@@ -212,7 +212,6 @@
 				if(AL.alValues) {
 					AL.inputs.prepare();
 				}
-				AL = null;
             }
         },
         
