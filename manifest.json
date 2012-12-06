@@ -15,13 +15,13 @@
         "storage"
     ],
     "background": {
-        "scripts": ["tea.js", "utils.js", "background.js"],
+        "scripts": ["tea.js", "functions.js", "utils.js", "background.js"],
         "persistent": false
     },
     "content_scripts": [
         {
           "matches": ["http://*/*", "https://*/*"],
-          "js": [ "tea.js", "utils.js", "autologger.js" ],
+          "js": [ "tea.js", "functions.js", "autologger.js" ],
           "all_frames": true
         }
       ]
