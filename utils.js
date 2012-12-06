@@ -222,7 +222,7 @@ _AL_CONF = {
 	},
 	present: function() {
 		var alValues = _AL_CONF.alValues.get();
-		return typeof(alValues) != 'undefined' && alValues != null;
+		return present(alValues);
 	}
     },
 

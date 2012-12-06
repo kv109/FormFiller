@@ -55,3 +55,7 @@ function properties(object)
 	}
 	return keys;
 }
+
+function present(object) {
+	return typeof(object) !== 'undefined' && object !== null;
+}
