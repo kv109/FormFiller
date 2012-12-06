@@ -40,7 +40,7 @@ $(function(){
 
 	function generateForm() {
 		var clearForm = function(){
-			if(getForm().length) $(CONF.constants.innerFormClass + ' .inputs', getForm()).html("");
+			if(getForm().length) $('.innerForm .inputs', getForm()).html("");
 		}();
 
 		var alValues = CONF.alValues.get();
@@ -195,11 +195,11 @@ $(function(){
 	}
 
 	function appendToFormInputs(input){
-		$(CONF.constants.innerFormClass + ' .inputs').append(input);
+		$('.innerForm .inputs').append(input);
 	}
 
 	function appendToForm(input){
-		$(CONF.constants.innerFormClass).append(input);
+		$('.innerForm').append(input);
 	}
 
 	function appendSubmitButton(){

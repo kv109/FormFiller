@@ -3,7 +3,6 @@ _AL_CONF = {
     storage: chrome.storage.sync,
     constants: {
         types: ['login', 'password', 'email', 'name', 'last_name', 'phone', 'street', 'city'],
-        innerFormClass: '.innerForm',
         localStorageKeys: {
             alValues: '_AL_VALUES',
             encKey: '_AL_ENC_KEY',
