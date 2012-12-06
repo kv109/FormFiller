@@ -15,13 +15,15 @@
         "storage"
     ],
     "background": {
-        "scripts": ["constants.js", "functions.js", "background.js"],
+        //"scripts": ["constants.js", "functions.js", "background.js"],
+        "scripts": ["bundled_background.js"],
         "persistent": false
     },
     "content_scripts": [
         {
           "matches": ["http://*/*", "https://*/*"],
-          "js": [ "tea.js", "functions.js", "autologger.js" ],
+          "js": [ "bundled_formfiller.js" ],
+          //"js": [ "tea.js", "functions.js", "autologger.js" ],
           "all_frames": true
         }
       ]
