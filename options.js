@@ -40,7 +40,10 @@ $(function(){
 
 	function generateForm() {
 		var clearForm = function(){
-			if(getForm().length) $('.innerForm .inputs', getForm()).html("");
+			if(getForm().length) {
+				$('.innerForm .inputs', getForm()).html("");
+				$('.submit').remove();
+			}
 		}();
 
 		var alValues = CONF.alValues.get();
