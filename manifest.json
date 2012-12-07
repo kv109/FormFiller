@@ -4,6 +4,7 @@
     "key":"eilhnemnocfpmkhbaajiefnlonnipcdb",
     "manifest_version": 2,
     "description": "Fills web forms for you.",
+    "minimum_chrome_version": "23.0.0",
     "icons": { "1": "autologger_icon.png" },
      "browser_action": {
         "default_icon": "autologger_icon128x128.png",
