@@ -208,7 +208,7 @@ $(function(){
 	}
 
 	function appendSubmitButton(){
-		appendToForm('<div class="submit"><input type="submit" /></div>');
+		appendToForm('<div class="submit"><input type="submit" value="Save" /></div>');
 	}
 
 	function initialize(){
