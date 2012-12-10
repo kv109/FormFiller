@@ -1,7 +1,6 @@
 {
     "name": "Form Filler",
     "version": "1.1.0",
-    "key":"eilhnemnocfpmkhbaajiefnlonnipcdb",
     "manifest_version": 2,
     "description": "Fills web forms for you.",
     "minimum_chrome_version": "23.0.0",
@@ -16,7 +15,6 @@
         "storage"
     ],
     "background": {
-        //"scripts": ["constants.js", "functions.js", "background.js"],
         "scripts": ["bundles/bundled_background.js"],
         "persistent": false
     },
@@ -24,7 +22,6 @@
         {
           "matches": ["http://*/*", "https://*/*"],
           "js": [ "bundles/bundled_formfiller.js" ],
-          //"js": [ "tea.js", "functions.js", "autologger.js" ],
           "all_frames": true
         }
       ]
