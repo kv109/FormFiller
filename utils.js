@@ -46,8 +46,17 @@ _AL_CONF = {
 		}
             
         },
+
+        processing: function(processing) {
+            toStorage('processing', processing);
+        },
+
+        isProcessing: function() {
+            return fromStorage('processing');
+        },
         
         get: function() {
+            _AL_CONF.sync.processing(true);
             _AL_CONF.storage.get(_AL_CONF.alValues.lsKey(), function(changes){
                 var alValues = changes[_AL_CONF.alValues.lsKey()];
                 _AL_CONF.storage.get(_AL_CONF.encKey.lsKey(), function(changes){
@@ -56,6 +65,7 @@ _AL_CONF = {
                     hash[_AL_CONF.encKey.lsKey()] = encKey;
 		    hash[_AL_CONF.alValues.lsKey()] = alValues;
 		    _AL_CONF.sync.receive(hash);
+                    _AL_CONF.sync.processing(false);
                 })
             })
         },

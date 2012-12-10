@@ -253,13 +253,26 @@ $(function(){
 
 		var synchronize = $('.synchronize');
 		synchronize.click(function(){
-			var ok = confirm('This operation will overwrite your data if they were changed on another browser. Are you sure?')
-			CONF.sync.get();
-			generateForm();
+			var ok = confirm('This operation will overwrite your data if they were changed on another browser. Are you sure?');
+                        if(!ok) return;
+
+                        var notifier = $('<span>'); notifier.text('Synchronizing...')
+                        synchronize.append(notifier);
+                        CONF.sync.get();
+			var i = setInterval(processSync, 500);
+
+                        function processSync() {
+                            var syncFinished = !(CONF.sync.isProcessing());
+                            if(syncFinished) {
+                                clearInterval(i);
+                                notifier.remove();
+                                generateForm();
+                            }
+                        }
 		})
 
 	}
-
+        
 	function saveNewType(type) {
 		generateAndAppendTypeBefore(type);
 		generateAndAppendInput([type, capitalize(type) + ' (1)'], 'text');
