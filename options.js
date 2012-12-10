@@ -150,8 +150,13 @@ $(function(){
 
 		removeLastOne.click(function(){
 			var lastInput = removeLastOne.parent().parent().prev();
-			if( $('input', lastInput.prev().prev()).length < 1) {
-				if( removeLastOne.parents('.typeContainer').hasClass('custom') ) {
+                        var lastInputIsTheOnlyOneLeft = lastInput.prev()[0].nodeName == 'H2';
+			if( lastInputIsTheOnlyOneLeft ) {
+                                var lastInputTypeIsCustomType = removeLastOne.parents('.typeContainer').hasClass('custom');
+				if( !lastInputTypeIsCustomType ) {
+                                    alert('Cannot remove the last one');
+				}
+				else {
 					if( confirm('This action will remove "' + type + '" permanently. Are you sure?') ) {
 						var typeContainer = removeLastOne.parents('.typeContainer');
 						typeContainer.prev().prev().remove();
@@ -159,9 +164,6 @@ $(function(){
 						typeContainer.remove();
 						saveOptions();
 					};
-				}
-				else {
-					alert('Cannot remove the last one');
 				}
 			}
 			else {
