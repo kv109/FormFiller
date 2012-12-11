@@ -171,6 +171,7 @@
                     var infoDivId = '__AL109'+this.name;
 
                     that.addEventListener('dblclick', function(){
+                        that.simulateKeyDown();
                         var value = AL.inputs.valueToPut(type, that);
                         that.value = value;
                         
@@ -194,9 +195,29 @@
                         var valueToPut = AL.inputs.valueToPut(type, this);
 
                         if(!valueToPut.match('Set your')) {
+                            this.simulateKeyDown();
                             this.value = valueToPut;
                         }
                     }
+                },
+
+                HTMLInputElement.prototype.simulateKeyDown = function() {
+                    var keyboardEvent = document.createEvent("KeyboardEvent");
+                    var initMethod = typeof keyboardEvent.initKeyboardEvent !== 'undefined' ? "initKeyboardEvent" : "initKeyEvent";
+
+                    keyboardEvent[initMethod](
+                       "keydown", // event type : keydown, keyup, keypress
+                        true, // bubbles
+                        true, // cancelable
+                        window, // viewArg: should be window
+                        false, // ctrlKeyArg
+                        false, // altKeyArg
+                        false, // shiftKeyArg
+                        false, // metaKeyArg
+                        40, // keyCodeArg : unsigned long the virtual key code, else 0
+                        0 // charCodeArgs : unsigned long the Unicode character associated with the depressed key, else 0
+                    );
+                    this.dispatchEvent(keyboardEvent);
                 },
 
                 NodeList.prototype.toArray = function() {
