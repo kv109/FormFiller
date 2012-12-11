@@ -4,9 +4,10 @@ cd ../..
 rm -rf Form-Filler-Deploy
 cp -r Form-Filler Form-Filler-Deploy
 cd Form-Filler-Deploy
-sed -i -e's/"version.*[0-9\.]"/"version": "'$version'"/' manifest.json		#version
-sed -i -e's/[^:]\/\/.*//' manifest.json		#remove comments
-sed -i -e's/"key.*//' manifest.json		#remove line with "key"
+sed -i -e's/"version.*[0-9\.]"/"version": "'$version'"/' manifest.json	#version
+sed -i -e's/[^:]\/\/.*/remove_me/' manifest.json	#remove comments
+sed -i -e's/"key.*/remove_me/' manifest.json		#remove line with "key"
+sed -i -e'/remove_me/d' manifest.json
 rm -rf .git
 rm .gitignore
 rm -rf nbproject
