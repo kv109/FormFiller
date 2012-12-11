@@ -1,1 +1,2 @@
-Form Filler is the extension for Google Chrome Browser which makes filling web forms easier. Inputs can be filled by dblclick or automatically.
+Form Filler is the extension for Google Chrome Browser which makes filling web forms easier. Inputs can be filled by dblclick or automatically with values previously set by an user.
+These values are assigned to the specific input types, for example logins, emails, etc. They can be also set for types defined by the user.
