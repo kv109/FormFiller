@@ -5,7 +5,7 @@
 
             getALConfig: function(){
 
-                chrome.extension.sendRequest({method: "getExtData"}, function(response) {
+                chrome.extension.sendMessage({method: "getExtData"}, function(response) {
                     AL.alValues = response.alValues;
 		    if(AL.alValues) {
 			    AL.alTypes = properties(AL.alValues).reverse();

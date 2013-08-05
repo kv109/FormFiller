@@ -1,4 +1,4 @@
-chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 
 
     if (request.method == "getExtData") {
