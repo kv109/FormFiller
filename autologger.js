@@ -75,7 +75,11 @@
                     }
 
                     function islogin(){
-                        var result = that.isStandardALInput(type);
+                        var isLogin = that.isStandardALInput(type) ||
+                                      that.isStandardALInput('username') ||
+                                      that.isStandardALInput('userid')
+
+                        var result = isLogin ? type : false;
 
                         if(result) {
                             if( byLoginTheyMeanEmail() ) {
