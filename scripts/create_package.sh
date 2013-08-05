@@ -1,9 +1,9 @@
 version=$1
 echo "Version $version will be created."
 cd ../..
-rm -rf Form-Filler-Deploy
-cp -r Form-Filler Form-Filler-Deploy
-cd Form-Filler-Deploy
+rm -rf FormFillerDeploy
+cp -r FormFiller FormFillerDeploy
+cd FormFillerDeploy
 sed -i -e's/"version.*[0-9\.]"/"version": "'$version'"/' manifest.json	#version
 sed -i -e's/[^:]\/\/.*/remove_me/' manifest.json	#remove comments
 sed -i -e's/"key.*/remove_me/' manifest.json		#remove line with "key"
