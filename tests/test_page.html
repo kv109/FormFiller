@@ -17,7 +17,6 @@
     var inputs = {
         last_name:
             [
-                'last_name',
                 'subname',
                 'Surname',
                 'suRName',
@@ -26,7 +25,6 @@
                 'secondName',
             ],
         email: [
-            'email',
             'mail'
         ]
     }
@@ -37,22 +35,35 @@
         var div   = document.createElement('div');
         div.setAttribute('class', 'type ' + type);
 
+        div.appendChild(createPattern(type));
+        document.forms[0].appendChild(div);
+
         inputs[type].forEach(function(inputName) {
-            var par   = document.createElement('p');
-            var input = document.createElement('input');
-            var label = document.createElement('label');
-
-            input.name = inputName;
-            input.setAttribute('class', type);
-            label.innerHTML = inputName;
-
-            par.appendChild(label);
-            par.appendChild(input);
-            div.appendChild(par);
-
+            var inputEl = createInputForType(type, inputName);
+            div.appendChild(inputEl);
             document.forms[0].appendChild(div);
         })
     })
+
+    function createPattern(type) {
+        var patternInput = createInputForType(type, type);
+        patternInput.childNodes[1].value = type;
+        return patternInput;
+    }
+
+    function createInputForType(type, inputName) {
+        var par   = document.createElement('p');
+        var input = document.createElement('input');
+        var label = document.createElement('label');
+
+        input.name = inputName;
+        input.setAttribute('class', type);
+        label.innerHTML = inputName;
+
+        par.appendChild(label);
+        par.appendChild(input);
+        return par;
+    }
 
     setTimeout(verify, 1500);
 
