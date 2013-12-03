@@ -43,26 +43,7 @@
                 }
 
                 HTMLInputElement.prototype.isStandardALInput = function(type) {
-                    var result = type;
-                    var typeHasManyWords = type.match('_');
-                    var name = this.cleanName();
-
-                    if(typeHasManyWords) {
-
-                        var typeWords = type.split('_');
-
-                        typeWords.forEach(function(word) {
-                            if(!name.match(word)) { result = false; }
-                        })
-
-                    }
-                    else {
-
-                        if(!name.match(type)) { result = false; }
-
-                    }
-
-                    return result;
+                    return new FormFillerString(this.name).containsFormFillerType(type);
                 }
 
                 HTMLInputElement.prototype.isSpecificALInput = function(type) {
@@ -122,12 +103,16 @@
                     return this.value == '';
                 }
 
+                HTMLInputElement.prototype.cleanId = function() {
+                    return new FormFillerString(this.id).withoutNonAlphanumericChars();
+                }
+
                 HTMLInputElement.prototype.cleanName = function() {
-                    return this.name.toLowerCase().replace(/[^a-zA-Z0-9]/g,"");
+                    return new FormFillerString(this.name).withoutNonAlphanumericChars();
                 }
 
                 HTMLInputElement.prototype.cleanValue = function() {
-                    return this.value.toLowerCase().replace(/[^a-zA-Z0-9]/g,"");
+                    return new FormFillerString(this.value).withoutNonAlphanumericChars();
                 }
 
                 HTMLInputElement.prototype.withPromptValue = function(type) {
@@ -361,6 +346,34 @@
                 return stars;
             }
         }
+    }
+
+    FormFillerString = function(string) {
+        var that = this;
+        that.string = string;
+
+        that.withoutNonAlphanumericChars = function() {
+            return this.string.toLowerCase().replace(/[^a-zA-Z0-9]/g,"");
+        }
+
+        that.containsFormFillerType = function(type) {
+            var result = type;
+            var typeHasManyWords = type.match('_');
+            var string = that.withoutNonAlphanumericChars()
+
+            if(typeHasManyWords) {
+                var typeWords = type.split('_');
+
+                typeWords.forEach(function(word) {
+                    if(!string.match(word)) { result = false; }
+                })
+            }
+            else {
+                if(!string.match(type)) { result = false; }
+            }
+            return result;
+        }
+
     }
 
     setTimeout("AL.initialize.start();", 500);
