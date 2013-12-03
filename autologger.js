@@ -43,7 +43,15 @@
                 }
 
                 HTMLInputElement.prototype.isStandardALInput = function(type) {
+                    return this.ffTypeBasedOnNameAttribute(type) || this.ffTypeBasedOnIdAttribute(type)
+                }
+
+                HTMLInputElement.prototype.ffTypeBasedOnNameAttribute = function(type) {
                     return new FormFillerString(this.name).containsFormFillerType(type);
+                }
+
+                HTMLInputElement.prototype.ffTypeBasedOnIdAttribute = function(type) {
+                    return new FormFillerString(this.id).containsFormFillerType(type);
                 }
 
                 HTMLInputElement.prototype.isSpecificALInput = function(type) {
@@ -91,12 +99,20 @@
                 }
 
                 HTMLInputElement.prototype.hasRequiredALInputAttrs = function() {
-                    var nameIsSet = typeof(name) !== 'undefined'
+                    if(!(this.hasNameAttribute() || this.hasIdAttribute())) return false;
 
                     var allowedTypes = /(text|password|email|tel)/
                     var typeIsCorrect = this.type.match(allowedTypes);
 
-                    return nameIsSet && typeIsCorrect;
+                    return typeIsCorrect;
+                }
+
+                HTMLInputElement.prototype.hasIdAttribute = function() {
+                    return typeof(this.id) !== 'undefined' && this.id != ''
+                }
+
+                HTMLInputElement.prototype.hasNameAttribute = function() {
+                    return typeof(this.name) !== 'undefined' && this.name != ''
                 }
 
                 HTMLInputElement.prototype.empty = function() {
