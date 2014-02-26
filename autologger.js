@@ -101,7 +101,7 @@
                 HTMLInputElement.prototype.hasRequiredALInputAttrs = function() {
                     if(!(this.hasNameAttribute() || this.hasIdAttribute())) return false;
 
-                    var allowedTypes = /(text|password|email|tel)/
+                    var allowedTypes = /(text|password|email|tel|number)/
                     var typeIsCorrect = this.type.match(allowedTypes);
 
                     return typeIsCorrect;
